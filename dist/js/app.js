@@ -701,7 +701,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
    observer.observe(wrapper);
 }); */
-
 const tableBody = document.querySelector(".compare__body");
 const headRow = document.querySelector(".head-row");
 const btnLeft = document.querySelector(".compare__scroll-left");
@@ -758,7 +757,6 @@ tableBody.addEventListener("scroll", () => {
    }
 });
 
-
 function getColumnWidth() {
    const firstCell = tableBody.querySelector(".compare__table-row-wrapper > *");
    return firstCell ? firstCell.offsetWidth : 150;
@@ -788,7 +786,15 @@ btnRight.addEventListener("click", () => {
    if (btnRight.classList.contains("disabled")) return;
    tableBody.scrollBy({ left: getColumnWidth(), behavior: "smooth" });
 });
+
+// ---------- drag-to-scroll + защита от swiper ----------
+
 const isInSwiper = (el) => el.closest('.swiper');
+
+// переменные для drag (ПК)
+let isDown = false;
+let startX;
+let scrollLeft;
 
 tableBody.addEventListener("mousedown", (e) => {
    if (isInSwiper(e.target)) return;
@@ -797,15 +803,26 @@ tableBody.addEventListener("mousedown", (e) => {
    startX = e.pageX - tableBody.offsetLeft;
    scrollLeft = tableBody.scrollLeft;
 });
+
 tableBody.addEventListener("mousemove", (e) => {
    if (isInSwiper(e.target)) return;
    if (!isDown) return;
    e.preventDefault();
    const x = e.pageX - tableBody.offsetLeft;
-   const walk = (x - startX);
+   const walk = x - startX;
    tableBody.scrollLeft = scrollLeft - walk;
 });
 
+tableBody.addEventListener("mouseup", () => {
+   isDown = false;
+   tableBody.classList.remove("dragging");
+});
+tableBody.addEventListener("mouseleave", () => {
+   isDown = false;
+   tableBody.classList.remove("dragging");
+});
+
+// переменные для touch (мобилки)
 let touchStartX = 0;
 let touchStartY = 0;
 let touchScrollLeft = 0;
