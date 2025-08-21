@@ -623,84 +623,9 @@ document.addEventListener('DOMContentLoaded', function () {
    });
 });
 
-
-/*------------------------------Scroll---------------------------*/
-/* document.addEventListener('DOMContentLoaded', function () {
-   const wrapper = document.querySelector('.compare__wrapper');
-   const scrollBtnRight = document.querySelector('.compare__scroll-right');
-   const scrollBtnLeft = document.querySelector('.compare__scroll-left');
-   if (!wrapper || !scrollBtnRight || !scrollBtnLeft) return;
-
-   let isDown = false;
-   let startX;
-   let scrollLeft;
-
-   wrapper.addEventListener('mousedown', (e) => {
-      isDown = true;
-      wrapper.classList.add('dragging');
-      startX = e.pageX - wrapper.offsetLeft;
-      scrollLeft = wrapper.scrollLeft;
-   });
-
-   wrapper.addEventListener('mouseleave', () => {
-      isDown = false;
-      wrapper.classList.remove('dragging');
-   });
-
-   wrapper.addEventListener('mouseup', () => {
-      isDown = false;
-      wrapper.classList.remove('dragging');
-   });
-
-   wrapper.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - wrapper.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      wrapper.scrollLeft = scrollLeft - walk;
-   });
-
-   scrollBtnRight.addEventListener('click', () => {
-      wrapper.scrollBy({
-         left: 360,
-         behavior: 'smooth',
-      });
-   });
-
-   scrollBtnLeft.addEventListener('click', () => {
-      wrapper.scrollBy({
-         left: -360,
-         behavior: 'smooth',
-      });
-   });
-
-   const checkScrollEnd = () => {
-      const scrollLeftValue = wrapper.scrollLeft;
-      const scrollRightValue = wrapper.scrollWidth - wrapper.clientWidth - scrollLeftValue;
-
-      scrollBtnLeft.classList.toggle('hidden', scrollLeftValue < 5);
-      scrollBtnRight.classList.toggle('hidden', scrollRightValue < 5);
-   };
-
-   wrapper.addEventListener('scroll', checkScrollEnd);
-   window.addEventListener('resize', checkScrollEnd);
-   checkScrollEnd();
-
-   const observer = new IntersectionObserver(
-      (entries) => {
-         entries.forEach(entry => {
-            const isVisible = entry.isIntersecting;
-            scrollBtnLeft.style.display = isVisible ? 'block' : 'none';
-            scrollBtnRight.style.display = isVisible ? 'block' : 'none';
-         });
-      },
-      {
-         threshold: 0.2,
-      }
-   );
-
-   observer.observe(wrapper);
-}); */
+/*---------------------------------------------------------------------------
+Compare table
+---------------------------------------------------------------------------*/
 const tableBody = document.querySelector(".compare__body");
 const headRow = document.querySelector(".head-row");
 const btnLeft = document.querySelector(".compare__scroll-left");
