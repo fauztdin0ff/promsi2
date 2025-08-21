@@ -731,7 +731,6 @@ document.addEventListener("scroll", () => {
       headRow.classList.remove("full");
    }
 
-   // скрытие кнопок если compare ниже 50vh
    const halfScreen = window.innerHeight * 0.5;
    if (rect.bottom <= halfScreen) {
       btnLeft.classList.add("hidden");
@@ -760,13 +759,11 @@ tableBody.addEventListener("scroll", () => {
 });
 
 
-// ширина одной колонки
 function getColumnWidth() {
    const firstCell = tableBody.querySelector(".compare__table-row-wrapper > *");
    return firstCell ? firstCell.offsetWidth : 150;
 }
 
-// обновление состояния кнопок
 function updateButtons() {
    const maxScrollLeft = tableBody.scrollWidth - tableBody.clientWidth;
 
@@ -783,7 +780,6 @@ function updateButtons() {
    }
 }
 
-// кнопки
 btnLeft.addEventListener("click", () => {
    if (btnLeft.classList.contains("disabled")) return;
    tableBody.scrollBy({ left: -getColumnWidth(), behavior: "smooth" });
@@ -794,16 +790,15 @@ btnRight.addEventListener("click", () => {
 });
 const isInSwiper = (el) => el.closest('.swiper');
 
-/* MOUSE drag таблицы */
 tableBody.addEventListener("mousedown", (e) => {
-   if (isInSwiper(e.target)) return;      // <-- не трогаем таблицу, если клик в свипере
+   if (isInSwiper(e.target)) return;
    isDown = true;
    tableBody.classList.add("dragging");
    startX = e.pageX - tableBody.offsetLeft;
    scrollLeft = tableBody.scrollLeft;
 });
 tableBody.addEventListener("mousemove", (e) => {
-   if (isInSwiper(e.target)) return;      // <-- защита
+   if (isInSwiper(e.target)) return;
    if (!isDown) return;
    e.preventDefault();
    const x = e.pageX - tableBody.offsetLeft;
@@ -811,32 +806,29 @@ tableBody.addEventListener("mousemove", (e) => {
    tableBody.scrollLeft = scrollLeft - walk;
 });
 
-/* TOUCH drag таблицы */
 let touchStartX = 0;
 let touchStartY = 0;
 let touchScrollLeft = 0;
 
 tableBody.addEventListener("touchstart", (e) => {
-   if (isInSwiper(e.target)) return;      // <-- защита
+   if (isInSwiper(e.target)) return;
    touchStartX = e.touches[0].pageX;
    touchStartY = e.touches[0].pageY;
    touchScrollLeft = tableBody.scrollLeft;
 });
 
 tableBody.addEventListener("touchmove", (e) => {
-   if (isInSwiper(e.target)) return;      // <-- защита
+   if (isInSwiper(e.target)) return;
 
    const dx = e.touches[0].pageX - touchStartX;
    const dy = e.touches[0].pageY - touchStartY;
 
-   // двигаем таблицу только при горизонтальном жесте
    if (Math.abs(dx) > Math.abs(dy)) {
       e.preventDefault();
       tableBody.scrollLeft = touchScrollLeft - dx;
    }
 });
 
-// инициализация
 updateButtons();
 
 /******/ })()
