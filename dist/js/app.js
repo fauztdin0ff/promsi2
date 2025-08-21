@@ -625,7 +625,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 /*------------------------------Scroll---------------------------*/
-document.addEventListener('DOMContentLoaded', function () {
+/* document.addEventListener('DOMContentLoaded', function () {
    const wrapper = document.querySelector('.compare__wrapper');
    const scrollBtnRight = document.querySelector('.compare__scroll-right');
    const scrollBtnLeft = document.querySelector('.compare__scroll-left');
@@ -700,6 +700,133 @@ document.addEventListener('DOMContentLoaded', function () {
    );
 
    observer.observe(wrapper);
+}); */
+
+const tableBody = document.querySelector(".compare__body");
+const headRow = document.querySelector(".head-row");
+const btnLeft = document.querySelector(".compare__scroll-left");
+const btnRight = document.querySelector(".compare__scroll-right");
+
+// фиксирование шапки при вертикальном скролле
+document.addEventListener("scroll", () => {
+   const section = document.querySelector(".compare");
+   const headRow = section?.querySelector(".head-row");
+   if (!section || !headRow) return;
+
+   const rect = section.getBoundingClientRect();
+
+   // фикс
+   const offsetTop = window.innerWidth < 767 ? 20 : 90;
+
+   if (rect.top <= offsetTop) {
+      headRow.classList.add("fixed");
+   } else {
+      headRow.classList.remove("fixed");
+   }
+
+   // конец секции
+   if (rect.bottom <= 257) {
+      headRow.classList.add("full");
+   } else {
+      headRow.classList.remove("full");
+   }
+
+   // скрытие кнопок если compare ниже 50vh
+   const halfScreen = window.innerHeight * 0.5;
+   if (rect.bottom <= halfScreen) {
+      btnLeft.classList.add("hidden");
+      btnRight.classList.add("hidden");
+   } else {
+      btnLeft.classList.remove("hidden");
+      btnRight.classList.remove("hidden");
+   }
 });
+
+// синхронизация горизонтального скролла для fixed-строки
+tableBody.addEventListener("scroll", () => {
+   const fixedRow = document.querySelector(".head-row.fixed");
+   if (fixedRow) {
+      fixedRow.scrollLeft = tableBody.scrollLeft;
+   }
+   updateButtons();
+});
+
+// ширина одной колонки
+function getColumnWidth() {
+   const firstCell = tableBody.querySelector(".compare__table-row-wrapper > *");
+   return firstCell ? firstCell.offsetWidth : 150;
+}
+
+// обновление состояния кнопок
+function updateButtons() {
+   const maxScrollLeft = tableBody.scrollWidth - tableBody.clientWidth;
+
+   if (tableBody.scrollLeft <= 0) {
+      btnLeft.classList.add("disabled");
+   } else {
+      btnLeft.classList.remove("disabled");
+   }
+
+   if (tableBody.scrollLeft >= maxScrollLeft - 1) {
+      btnRight.classList.add("disabled");
+   } else {
+      btnRight.classList.remove("disabled");
+   }
+}
+
+// кнопки
+btnLeft.addEventListener("click", () => {
+   if (btnLeft.classList.contains("disabled")) return;
+   tableBody.scrollBy({ left: -getColumnWidth(), behavior: "smooth" });
+});
+btnRight.addEventListener("click", () => {
+   if (btnRight.classList.contains("disabled")) return;
+   tableBody.scrollBy({ left: getColumnWidth(), behavior: "smooth" });
+});
+
+// перетаскивание мышью
+let isDown = false;
+let startX;
+let scrollLeft;
+
+tableBody.addEventListener("mousedown", (e) => {
+   isDown = true;
+   tableBody.classList.add("dragging");
+   startX = e.pageX - tableBody.offsetLeft;
+   scrollLeft = tableBody.scrollLeft;
+});
+tableBody.addEventListener("mouseleave", () => {
+   isDown = false;
+   tableBody.classList.remove("dragging");
+});
+tableBody.addEventListener("mouseup", () => {
+   isDown = false;
+   tableBody.classList.remove("dragging");
+});
+tableBody.addEventListener("mousemove", (e) => {
+   if (!isDown) return;
+   e.preventDefault();
+   const x = e.pageX - tableBody.offsetLeft;
+   const walk = (x - startX) * 1; // скорость
+   tableBody.scrollLeft = scrollLeft - walk;
+});
+
+// поддержка тача
+let touchStartX = 0;
+let touchScrollLeft = 0;
+
+tableBody.addEventListener("touchstart", (e) => {
+   touchStartX = e.touches[0].pageX;
+   touchScrollLeft = tableBody.scrollLeft;
+});
+tableBody.addEventListener("touchmove", (e) => {
+   const x = e.touches[0].pageX;
+   const walk = (x - touchStartX) * 1;
+   tableBody.scrollLeft = touchScrollLeft - walk;
+});
+
+// инициализация
+updateButtons();
+
 /******/ })()
 ;
