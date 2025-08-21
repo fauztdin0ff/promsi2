@@ -5130,6 +5130,9 @@ Documents
 @media (width < 767px) {
   .compare__table-row-wrapper.fixed {
     top: 52px;
+    width: 100vw;
+    left: 0;
+    padding-left: 15px;
   }
 }
 @media (width < 600px) {
