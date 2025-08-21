@@ -5098,6 +5098,8 @@ Documents
   top: 88px;
   z-index: 55;
   transition: all 0.3s ease 0s;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .compare__table-row-wrapper.fixed .product-preview__images {
   max-width: 80px;

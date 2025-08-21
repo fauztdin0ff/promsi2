@@ -743,13 +743,22 @@ document.addEventListener("scroll", () => {
 });
 
 // синхронизация горизонтального скролла для fixed-строки
+let ticking = false;
+
 tableBody.addEventListener("scroll", () => {
-   const fixedRow = document.querySelector(".head-row.fixed");
-   if (fixedRow) {
-      fixedRow.scrollLeft = tableBody.scrollLeft;
+   if (!ticking) {
+      requestAnimationFrame(() => {
+         const fixedRow = document.querySelector(".head-row.fixed");
+         if (fixedRow) {
+            fixedRow.scrollLeft = tableBody.scrollLeft;
+         }
+         updateButtons();
+         ticking = false;
+      });
+      ticking = true;
    }
-   updateButtons();
 });
+
 
 // ширина одной колонки
 function getColumnWidth() {
