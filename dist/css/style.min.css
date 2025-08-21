@@ -5170,6 +5170,14 @@ Documents
 .compare__table-cell .product-preview {
   position: relative;
 }
+.compare__table-cell .product-preview .swiper {
+  touch-action: pan-y;
+  overscroll-behavior-x: contain;
+}
+.compare__table-cell .product-preview .swiper-wrapper {
+  touch-action: pan-y;
+  overscroll-behavior-x: contain;
+}
 .compare__table-cell .product-preview__subname {
   margin-bottom: 6px !important;
 }
@@ -5177,7 +5185,7 @@ Documents
   position: absolute;
   top: 20px;
   right: 20px;
-  z-index: 5;
+  z-index: 1;
   width: 22px;
   height: 22px;
   padding: 2px;

@@ -792,46 +792,48 @@ btnRight.addEventListener("click", () => {
    if (btnRight.classList.contains("disabled")) return;
    tableBody.scrollBy({ left: getColumnWidth(), behavior: "smooth" });
 });
+const isInSwiper = (el) => el.closest('.swiper');
 
-// перетаскивание мышью
-let isDown = false;
-let startX;
-let scrollLeft;
-
+/* MOUSE drag таблицы */
 tableBody.addEventListener("mousedown", (e) => {
+   if (isInSwiper(e.target)) return;      // <-- не трогаем таблицу, если клик в свипере
    isDown = true;
    tableBody.classList.add("dragging");
    startX = e.pageX - tableBody.offsetLeft;
    scrollLeft = tableBody.scrollLeft;
 });
-tableBody.addEventListener("mouseleave", () => {
-   isDown = false;
-   tableBody.classList.remove("dragging");
-});
-tableBody.addEventListener("mouseup", () => {
-   isDown = false;
-   tableBody.classList.remove("dragging");
-});
 tableBody.addEventListener("mousemove", (e) => {
+   if (isInSwiper(e.target)) return;      // <-- защита
    if (!isDown) return;
    e.preventDefault();
    const x = e.pageX - tableBody.offsetLeft;
-   const walk = (x - startX) * 1; // скорость
+   const walk = (x - startX);
    tableBody.scrollLeft = scrollLeft - walk;
 });
 
-// поддержка тача
+/* TOUCH drag таблицы */
 let touchStartX = 0;
+let touchStartY = 0;
 let touchScrollLeft = 0;
 
 tableBody.addEventListener("touchstart", (e) => {
+   if (isInSwiper(e.target)) return;      // <-- защита
    touchStartX = e.touches[0].pageX;
+   touchStartY = e.touches[0].pageY;
    touchScrollLeft = tableBody.scrollLeft;
 });
+
 tableBody.addEventListener("touchmove", (e) => {
-   const x = e.touches[0].pageX;
-   const walk = (x - touchStartX) * 1;
-   tableBody.scrollLeft = touchScrollLeft - walk;
+   if (isInSwiper(e.target)) return;      // <-- защита
+
+   const dx = e.touches[0].pageX - touchStartX;
+   const dy = e.touches[0].pageY - touchStartY;
+
+   // двигаем таблицу только при горизонтальном жесте
+   if (Math.abs(dx) > Math.abs(dy)) {
+      e.preventDefault();
+      tableBody.scrollLeft = touchScrollLeft - dx;
+   }
 });
 
 // инициализация
