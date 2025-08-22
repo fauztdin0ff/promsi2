@@ -886,7 +886,7 @@ body {
    top: -2px;
 }
 
-.education-popup__body .custom-checkbox:has(input:user-invalid) {
+.fv-popup__body .custom-checkbox:has(input:user-invalid) {
    color: #e40611;
 }
 
