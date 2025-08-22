@@ -658,6 +658,34 @@
    });
 
    /*---------------------------------------------------------------------------
+   Wishlist view toggle
+   ---------------------------------------------------------------------------*/
+   document.addEventListener("DOMContentLoaded", () => {
+      const wishlist = document.querySelector(".fv-wishlist__products");
+      const gridBtn = document.querySelector(".fv-wishlist__grid-btn");
+      const rowBtn = document.querySelector(".fv-wishlist__row-btn");
+
+      if (wishlist && gridBtn && rowBtn) {
+         gridBtn.addEventListener("click", () => {
+            wishlist.classList.remove("row-view");
+            wishlist.classList.add("grid-view");
+
+            gridBtn.classList.add("active");
+            rowBtn.classList.remove("active");
+         });
+
+         rowBtn.addEventListener("click", () => {
+            wishlist.classList.remove("grid-view");
+            wishlist.classList.add("row-view");
+
+            rowBtn.classList.add("active");
+            gridBtn.classList.remove("active");
+         });
+      }
+   });
+
+
+   /*---------------------------------------------------------------------------
    Compare table
    ---------------------------------------------------------------------------*/
    const tableBody = document.querySelector(".compare__body");
