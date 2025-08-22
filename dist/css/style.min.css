@@ -886,6 +886,10 @@ body {
    top: -2px;
 }
 
+.education-popup__body .custom-checkbox:has(input:user-invalid) {
+   color: #e40611;
+}
+
 .contact-form-content .contact-form__input {
    min-height: 44px;
 }
