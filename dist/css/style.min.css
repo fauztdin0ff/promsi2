@@ -6130,7 +6130,10 @@ Documents
    display: none;
 }
 
-@media (width < 600px) {
+@media (width < 1023px) {
+   .compare__scroll-buttons {
+      display: none;
+   }
 
    .compare__scroll-right,
    .compare__scroll-left {
