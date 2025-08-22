@@ -3679,6 +3679,7 @@ Documents
    gap: 50px 30px;
 }
 
+
 .fv-wishlist__products.row-view .product-preview {
    flex-direction: row;
    max-width: 100%;
@@ -3775,7 +3776,7 @@ Documents
 }
 
 @media (width < 767px) {
-   .fv-wishlist__products {
+   .fv-wishlist__products.grid-view {
       gap: 30px 10px;
       padding: 10px 0 40px;
    }
@@ -6295,6 +6296,11 @@ input[type=number] {
 
    .compare__table .product-preview__image {
       height: 200px;
+   }
+
+   .compare__table .product-preview__images .swiper-wrapper {
+      height: 200px;
+      min-height: 200px;
    }
 }
 
