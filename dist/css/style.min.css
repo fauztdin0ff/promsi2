@@ -3798,6 +3798,36 @@ Documents
    }
 }
 
+.fv-wishlist__products-panel {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 20px;
+}
+
+.fv-wishlist__products-panel .button-blue {
+   background: #004290;
+   color: #fff;
+}
+
+@media (hover: hover) {
+   .fv-wishlist__products-panel .button-blue:hover {
+      background: #156ad1;
+      border-color: #156ad1;
+   }
+}
+
+@media (width < 767px) {
+   .fv-wishlist__products-panel {
+      flex-direction: column;
+      gap: 30px;
+   }
+}
+
+.fv-wishlist__products-panel .page-pagination {
+   margin: 0;
+}
+
 .about-text__title {
    font-size: 28px;
 }
